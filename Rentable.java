@@ -1,4 +1,5 @@
+package src;
 public interface Rentable{
-   void rent();
-    void return_vehicle();
+    public void rent();
+    public void return_vehicle();
 }

@@ -1,3 +1,4 @@
+package src;
 public class Car extends Vehicle{
     private int seats;
 

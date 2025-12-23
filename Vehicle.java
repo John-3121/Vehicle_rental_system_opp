@@ -1,9 +1,10 @@
-public abstract Vehicle class implements Rentable{
+package src;
+public abstract class Vehicle implements Rentable{
     private int vehicleId;
     private String brand;
     private String model;
     private double pricePerDay;
-    private boolean available = true
+    private boolean available = true;
     
     public Vehicle(int vehicleId, String brand, String model, double pricePerDay) {
         this.vehicleId = vehicleId;
@@ -34,8 +35,8 @@ public abstract Vehicle class implements Rentable{
         available = true;
         System.out.println(brand + " " + model + " has been returned.");
     }
-    }
     
     public abstract void display_info();
+    }
     
-}
+    
