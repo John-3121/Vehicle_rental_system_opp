@@ -1,4 +1,4 @@
-Merge In one file(Ide/Compile problem)
+Merge In one file(Ide/Compiler problem)
 Vehicle_rental_System_OOP
 Classes:
 *Main
