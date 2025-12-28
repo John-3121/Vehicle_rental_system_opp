@@ -1,8 +1,9 @@
 package com.example;
 import java.util.Scanner;
-import java.time.LocalDate.now;
+import java.time.LocalDate;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Main {
   // Main mn = new Main();
@@ -15,6 +16,7 @@ public class Main {
      
         boolean exit = false;
         while(!exit){
+                 
             System.out.println("=== VEHICLE RENTAL SYSTEM ===\n1. Show all vehicles\n2. Rent a vehicle\n3. Return a vehicle\n4. View rentals\n5. Exit\nEnter choice:");
             
             System.out.println("1.Enter a choice");
@@ -22,9 +24,21 @@ public class Main {
                      int choice = sn.nextInt(); 
                   switch(choice){
          case 1:
-             available_vehicles();
+             Car.available_vehicles();
          break;
          case 2:
+             System.out.println("Enter id");
+               int id =sn.nextInt();            
+              System.out.println("Enter you fullname") ;
+               String name =sn.nextLine();  
+              Customer customer = new Customer(id,fname);  
+              int car = sn.nextInt();
+                           ArrayList<Car> cars = cr.carList();
+                           for(Car c:cars){
+                                Rental rn =new Rental(1,Customer,c(car-1),LocalDate.now());
+                           }
+                                    
+             // Rental rn = new Rental(1,,)  ;         
          break;
          case 3:
          break;
@@ -43,17 +57,7 @@ public class Main {
         }
     }
    
- public static void available_vehicles(){
-        Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
-        Car car2 = new Car(2,"ferrai","GT",5000.00,4);
-        int z =1;
-        Vehicle[] vehicles = {car1,car2};
-        System.out.println("Available_Rentable_Vehicles");
-        for(Vehicle ve:vehicles){
-            System.out.print(z+++": ");
-                 ve.display_info();
-        }
-  }
+ 
 public static void rent_vehicle(){
   
          System.out.println("Choose a car to rent(1,2etc...");
@@ -83,16 +87,34 @@ class Bike extends Vehicle{
 
 
  class Car extends Vehicle{
+          ArrayList<Car> cars = new ArrayList<Car>();
     private int seats;
-
+          Car(){};
     public Car(int vehicleId, String brand, String model, double pricePerDay, int seats) {
         super(vehicleId, brand, model, pricePerDay);
         this.seats = seats;
     }
+          
     @Override
     public void display_info() {
         System.out.println("🚗 Car: " + getBrand() + " " + getModel() + " | Seats: " + seats + " | ₱" + getPricePerDay() + "/day");
     }
+    public ArrayList<Car> carList(){return cars;}    
+          
+public static void available_vehicles(){
+          Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
+          Car car2 = new Car(2,"ferrai","GT",5000.00,4);
+         cars.add(car1);
+         cars.add(car2);
+          
+        int z =1;
+        Vehicle[] vehicles = {car1,car2};
+        System.out.println("Available_Rentable_Vehicles");
+        for(Vehicle ve:vehicles){
+            System.out.print(z+++": ");
+                 ve.display_info();
+        }
+  }          
 }
 
 class Customer{
@@ -124,12 +146,10 @@ class Rental{
          Customer getCustomer(){return customer;}
          LocalDate getLocalDate(){return localdate;}
          
-         public void calculatecost(int days){
-               this.localdate * days;
-                  
-                  
-                  
+         public double calculatecost(double days){
+               return days * vehicle.getPricePerDay();
          }
+         
 }
 
 
@@ -140,6 +160,7 @@ abstract class Vehicle implements Rentable{
     private double pricePerDay;
     private boolean available = true;
     
+         Vehicle(){};
     public Vehicle(int vehicleId, String brand, String model, double pricePerDay) {
         this.vehicleId = vehicleId;
         this.brand = brand;
