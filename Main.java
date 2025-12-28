@@ -1,51 +1,60 @@
 package com.example;
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 public class Main {
+  // Main mn = new Main();
+ //  public void options(int choice){}
+   
     public static void main(String[] args) {
-        Scanner sn = new Scanner(System.in);
-        System.out.println("hello?");
-        //	System.out.println("hello");
-     /*   Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
+       Scanner sn = new Scanner(System.in);
+     
+        boolean exit = false;
+        while(!exit){
+            System.out.println("=== VEHICLE RENTAL SYSTEM ===\n1. Show all vehicles\n2. Rent a vehicle\n3. Return a vehicle\n4. View rentals\n5. Exit\nEnter choice:");
+            
+            System.out.println("1.Enter a choice");
+                 int choice = sn.nextInt();
+                  switch(choice){
+         case 1:
+             available_vehicles();
+         break;
+         case 2:
+         break;
+         case 3:
+         break;
+         case 4:
+         break;
+                  }
+        }
+    }
+   
+ public static void available_vehicles(){
+        Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
         Car car2 = new Car(2,"ferrai","GT",5000.00,4);
         
-       Vehicle[] vehicles = {car1,car2};
+        Vehicle[] vehicles = {car1,car2};
         System.out.println("Available_Rentable_Vehicles");
         for(Vehicle ve:vehicles){
             ve.display_info();
-        }*/
-        boolean exit = false;
-        while(exit){
-           /* System.out.println("=== VEHICLE RENTAL SYSTEM ===\n
-               1. Show all vehicles\n
-               2. Rent a vehicle\n
-               3. Return a vehicle\n
-               4. View rentals\n
-               5. Exit\n
-               Enter choice:");
-            */
-            System.out.println("1.show all vehicles\n");
-                 int choice = sn.nextInt();
-            
         }
-        
-    }
+  }
+   
 }
-
-public class Bike extends Vehicle{
+class Bike extends Vehicle{
      int Cc;
     public Bike(int vehicleId, String brand,int Cc,String model,double pricePerDay){
         super(vehicleId,brand,model, pricePerDay);
         this.Cc = Cc;
     }
     @Override 
-    display_info(){
+   public void display_info(){
         System.out.println("hello");
     }
 }
 
 
-public class Car extends Vehicle{
+ class Car extends Vehicle{
     private int seats;
 
     public Car(int vehicleId, String brand, String model, double pricePerDay, int seats) {
@@ -58,7 +67,7 @@ public class Car extends Vehicle{
     }
 }
 
-public class Customer{
+class Customer{
     String name;
     int uId;
    public Customer(String name,int uId){
@@ -67,8 +76,7 @@ public class Customer{
     }
     
 }
-
-public abstract class Vehicle implements Rentable{
+abstract class Vehicle implements Rentable{
     private int vehicleId;
     private String brand;
     private String model;
@@ -108,7 +116,9 @@ public abstract class Vehicle implements Rentable{
     public abstract void display_info();
     }
     
-    public interface Rentable {
+interface Rentable {
     void rent();
     void return_vehicle();
 }
+
+
