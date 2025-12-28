@@ -1,20 +1,25 @@
 package com.example;
 import java.util.Scanner;
-import java.time.LocalDateTime;
+import java.time.LocalDate.now;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
   // Main mn = new Main();
  //  public void options(int choice){}
+       static Scanner sn = new Scanner(System.in);
+    //   static LocalDateTime time= new LocalDateTime().now();
    
     public static void main(String[] args) {
-       Scanner sn = new Scanner(System.in);
+        
      
         boolean exit = false;
         while(!exit){
             System.out.println("=== VEHICLE RENTAL SYSTEM ===\n1. Show all vehicles\n2. Rent a vehicle\n3. Return a vehicle\n4. View rentals\n5. Exit\nEnter choice:");
             
             System.out.println("1.Enter a choice");
-                 int choice = sn.nextInt();
+                 try{
+                     int choice = sn.nextInt(); 
                   switch(choice){
          case 1:
              available_vehicles();
@@ -25,20 +30,43 @@ public class Main {
          break;
          case 4:
          break;
-                  }
+         case 5:
+             exit=true;
+             System.out.println("Exit sucessfully!");         
+            break;                      
+                  }                     
+                 }catch(Exception e){
+                          System.out.println("Invalid");
+                 }
+                 
+
         }
     }
    
  public static void available_vehicles(){
         Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
         Car car2 = new Car(2,"ferrai","GT",5000.00,4);
-        
+        int z =1;
         Vehicle[] vehicles = {car1,car2};
         System.out.println("Available_Rentable_Vehicles");
         for(Vehicle ve:vehicles){
-            ve.display_info();
+            System.out.print(z+++": ");
+                 ve.display_info();
         }
   }
+public static void rent_vehicle(){
+  
+         System.out.println("Choose a car to rent(1,2etc...");
+         try{
+             int choice =  sn.nextInt();
+              
+         }catch(Exception e){
+              System.out.println("error");    
+         }
+         
+         
+   
+}
    
 }
 class Bike extends Vehicle{
@@ -74,8 +102,37 @@ class Customer{
         this.name = name;
         this.uId = uId;
     }
+         public String getName(){return name;}
     
 }
+class Rental{
+         Scanner sn =new Scanner(System.in);
+       private int rental_id ; 
+       private Vehicle vehicle;
+       private Customer customer;
+       private LocalDate localdate;  
+       private int days;  
+         
+    Rental(int rental_id,Vehicle vehicle,Customer customer,LocalDate localdate){
+             this.vehicle=vehicle;
+             this.customer=customer ;
+             this.rental_id = rental_id;
+             this.localdate = localdate;
+    }
+         int getRentalId(){return rental_id;}
+         Vehicle getVehicle(){return vehicle;}
+         Customer getCustomer(){return customer;}
+         LocalDate getLocalDate(){return localdate;}
+         
+         public void calculatecost(int days){
+               this.localdate * days;
+                  
+                  
+                  
+         }
+}
+
+
 abstract class Vehicle implements Rentable{
     private int vehicleId;
     private String brand;
