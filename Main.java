@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Main {
   // Main mn = new Main();
  //  public void options(int choice){}
+     
        static Scanner sn = new Scanner(System.in);
     //   static LocalDateTime time= new LocalDateTime().now();
    
@@ -22,7 +23,11 @@ public class Main {
             System.out.println("1.Enter a choice");
                  try{
                      int choice = sn.nextInt(); 
-                  switch(choice){
+                      
+                 
+                      System.out.println("Invalid input");
+                 
+             switch(choice){
          case 1:
              Car.available_vehicles();
          break;
@@ -31,14 +36,15 @@ public class Main {
                int id =sn.nextInt();            
               System.out.println("Enter you fullname") ;
                String name =sn.nextLine();  
-              Customer customer = new Customer(id,fname);  
-              int car = sn.nextInt();
-                           ArrayList<Car> cars = cr.carList();
+              Customer customer = new Customer(name,id); 
+              System.out.println("Kindly select the car you want to rent");   
+             int car = sn.nextInt();
+                           ArrayList<Car> cars = Car.carList();
                            for(Car c:cars){
-                                Rental rn =new Rental(1,Customer,c(car-1),LocalDate.now());
+                                Rental rn =new Rental(1,c,customer,LocalDate.now());
                            }
                                     
-             // Rental rn = new Rental(1,,)  ;         
+             // Rental rn = new Rental(1,,)  ;     
          break;
          case 3:
          break;
@@ -52,7 +58,7 @@ public class Main {
                  }catch(Exception e){
                           System.out.println("Invalid");
                  }
-                 
+        
 
         }
     }
@@ -87,7 +93,7 @@ class Bike extends Vehicle{
 
 
  class Car extends Vehicle{
-          ArrayList<Car> cars = new ArrayList<Car>();
+         static ArrayList<Car> cars = new ArrayList<Car>();
     private int seats;
           Car(){};
     public Car(int vehicleId, String brand, String model, double pricePerDay, int seats) {
@@ -99,7 +105,8 @@ class Bike extends Vehicle{
     public void display_info() {
         System.out.println("🚗 Car: " + getBrand() + " " + getModel() + " | Seats: " + seats + " | ₱" + getPricePerDay() + "/day");
     }
-    public ArrayList<Car> carList(){return cars;}    
+      
+    public static ArrayList<Car> carList(){return cars;}    
           
 public static void available_vehicles(){
           Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
