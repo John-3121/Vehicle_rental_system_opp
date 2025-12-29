@@ -9,6 +9,7 @@ public class Main {
   // Main mn = new Main();
  //  public void options(int choice){}
      
+     
        static Scanner sn = new Scanner(System.in);
     //   static LocalDateTime time= new LocalDateTime().now();
    
@@ -34,15 +35,15 @@ public class Main {
          case 2:
              System.out.println("Enter id");
                int id =sn.nextInt();            
-              System.out.println("Enter you fullname") ;
+               System.out.println("Enter you fullname") ;
                String name =sn.nextLine();  
-              Customer customer = new Customer(name,id); 
-              System.out.println("Kindly select the car you want to rent");   
-             int car = sn.nextInt();
+               Customer customer = new Customer(name,id); 
+               System.out.println("Kindly select the car you want to rent");   
+               int car = sn.nextInt();
                            ArrayList<Car> cars = Car.carList();
-                           for(Car c:cars){
-                                Rental rn =new Rental(1,c,customer,LocalDate.now());
-                           }
+                                Car cr = cars.get(car-1);
+                                cr.rent();
+                                Rental rn =new Rental(1,cr,customer,LocalDate.now());
                                     
              // Rental rn = new Rental(1,,)  ;     
          break;
