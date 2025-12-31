@@ -1,4 +1,5 @@
 package com.example;
+import java.util.*;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.*;
@@ -20,13 +21,14 @@ public class Main {
             System.out.println("1.Enter a choice");
                  try{
                      int choice = sn.nextInt();
+                     sn.nextLine();
                  
              switch(choice){
          case 1:
              Car.available_vehicles();
          break;
          case 2:
-// For ID input with error handling
+
 int id = 0;
 boolean validId = false;
 while (!validId) {
@@ -55,8 +57,7 @@ while (!validName) {
         validName = true;
     }
 }
-
-// For rent days input with error handling
+                 
 double rent_days = 0;
 boolean validDays = false;
 while (!validDays) {
@@ -80,8 +81,10 @@ while (!validDays) {
                       Rental rn =new Rental(1,cr,customer,LocalDate.now());
                       cr.rent();
                       rn.calculatecost(rent_days);
-                                    
-             // Rental rn = new Rental(1,,)  ;     
+                      rn.display_summary();
+                 
+                        
+                 
          break;
          case 3:
          break;
@@ -93,7 +96,7 @@ while (!validDays) {
             break;                      
                   }                     
                  }catch(Exception e){
-                          System.out.println("Invalid");
+                          System.out.println("fuck Invalid");
                  }
         
 
@@ -145,7 +148,7 @@ class Bike extends Vehicle{
           
 public static void available_vehicles(){
           Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
-          Car car2 = new Car(2,"ferrai","GT",5000.00,4);
+          Car car2 = new Car(2,"ferrai","GT",3500.00,4);
          cars.add(car1);
          cars.add(car2);
           
@@ -176,7 +179,8 @@ class Rental{
          private Customer customer;
          private LocalDate localdate; //StartDate
          private LocalDate endDate;
-         private int days;
+       //  private int days;
+         private double total_cost;
          
        public Rental(){};   
     Rental(int rental_id,Vehicle vehicle,Customer customer,LocalDate localdate){
@@ -189,12 +193,18 @@ class Rental{
          Vehicle getVehicle(){return vehicle;}
          Customer getCustomer(){return customer;}
          LocalDate getLocalDate(){return localdate;}
+         LocalDate getEndDate(){return endDate;} 
+         
          
          public double calculatecost(double days){
-               return days * vehicle.getPricePerDay();
+                endDate = localdate.plusDays((long)days);
+               return total_cost = days * vehicle.getPricePerDay();
          }
-         public LocalDate rental_end(long days){
-               return localdate.plusDays(days);
+         public LocalDate rental_end(double days){
+               return endDate = localdate.plusDays((long)days);
+         }
+         public void total_cost(){
+             System.out.println(total_cost);
          }
         public void display_summary(){
                   System.out.println("\nRental ID: " + rental_id);
@@ -202,7 +212,8 @@ class Rental{
                   System.out.println("Vehicle: " + vehicle.getBrand() + " " + vehicle.getModel());
                   System.out.println("Start Date: " + localdate);
                   System.out.println("End Date: " + (endDate != null ? endDate : "Ongoing"));
-         }
+                  System.out.println("Total cost:"+ total_cost);
+        }
 }
 
 
