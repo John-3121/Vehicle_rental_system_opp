@@ -79,7 +79,6 @@ while (!validDays) {
                       Customer customer = new Customer(name,id); 
                       Rental rn =new Rental(1,cr,customer,LocalDate.now());
                       cr.rent();
-                      customer.getName();
                       rn.calculatecost(rent_days);
                                     
              // Rental rn = new Rental(1,,)  ;     
@@ -175,7 +174,8 @@ class Rental{
          private int rental_id ; 
          private Vehicle vehicle;
          private Customer customer;
-         private LocalDate localdate;  
+         private LocalDate localdate; //StartDate
+         private LocalDate endDate;
          private int days;
          
        public Rental(){};   
@@ -183,7 +183,7 @@ class Rental{
              this.vehicle=vehicle;
              this.customer=customer ;
              this.rental_id = rental_id;
-             this.localdate = localdate;
+             this.localdate = localdate;//startdate
     }
          int getRentalId(){return rental_id;}
          Vehicle getVehicle(){return vehicle;}
@@ -196,13 +196,13 @@ class Rental{
          public LocalDate rental_end(long days){
                return localdate.plusDays(days);
          }
-      /*   public void display_summary(){
-                  System.out.println("\nRental ID: " + rentalId);
+        public void display_summary(){
+                  System.out.println("\nRental ID: " + rental_id);
                   System.out.println("Customer: " + customer.getName());
                   System.out.println("Vehicle: " + vehicle.getBrand() + " " + vehicle.getModel());
-                  System.out.println("Start Date: " + startDate);
+                  System.out.println("Start Date: " + localdate);
                   System.out.println("End Date: " + (endDate != null ? endDate : "Ongoing"));
-         }*/
+         }
 }
 
 
