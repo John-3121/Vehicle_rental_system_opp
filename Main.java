@@ -8,14 +8,10 @@ import java.util.ArrayList;
 public class Main {
   // Main mn = new Main();
  //  public void options(int choice){}
-     
-     
        static Scanner sn = new Scanner(System.in);
     //   static LocalDateTime time= new LocalDateTime().now();
    
     public static void main(String[] args) {
-        
-     
         boolean exit = false;
         while(!exit){
                  
@@ -23,27 +19,68 @@ public class Main {
             
             System.out.println("1.Enter a choice");
                  try{
-                     int choice = sn.nextInt(); 
-                      
-                 
-                      System.out.println("Invalid input");
+                     int choice = sn.nextInt();
                  
              switch(choice){
          case 1:
              Car.available_vehicles();
          break;
          case 2:
-             System.out.println("Enter id");
-               int id =sn.nextInt();            
-               System.out.println("Enter you fullname") ;
-               String name =sn.nextLine();  
-               Customer customer = new Customer(name,id); 
+// For ID input with error handling
+int id = 0;
+boolean validId = false;
+while (!validId) {
+    try {
+        System.out.println("Enter id");
+        id = Integer.parseInt(sn.nextLine().trim());
+        if (id <= 0) {
+            System.out.println("Error: ID must be a positive number. Please try again.");
+        } else {
+            validId = true;
+        }
+    } catch (NumberFormatException e) {
+        System.out.println("Error: Invalid input. Please enter a valid number for ID.");
+    }
+}                 
+                 
+                 
+String name = "";
+boolean validName = false;
+while (!validName) {
+    System.out.println("Enter your fullname");
+    name = sn.nextLine().trim();
+    if (name.isEmpty()) {
+        System.out.println("Error: Name cannot be empty. Please try again.");
+    } else {
+        validName = true;
+    }
+}
+
+// For rent days input with error handling
+double rent_days = 0;
+boolean validDays = false;
+while (!validDays) {
+    try {
+        System.out.println("How many days to rent");
+        rent_days = Double.parseDouble(sn.nextLine().trim());
+        if (rent_days <= 0) {
+            System.out.println("Error: Number of days must be greater than 0. Please try again.");
+        } else {
+            validDays = true;
+        }
+    } catch (NumberFormatException e) {
+        System.out.println("Error: Invalid input. Please enter a valid number for days.");
+    }
+}
                System.out.println("Kindly select the car you want to rent");   
                int car = sn.nextInt();
-                           ArrayList<Car> cars = Car.carList();
-                                Car cr = cars.get(car-1);
-                                cr.rent();
-                                Rental rn =new Rental(1,cr,customer,LocalDate.now());
+                      ArrayList<Car> cars = Car.carList();
+                      Car cr = cars.get(car-1);
+                      Customer customer = new Customer(name,id); 
+                      Rental rn =new Rental(1,cr,customer,LocalDate.now());
+                      cr.rent();
+                      customer.getName();
+                      rn.calculatecost(rent_days);
                                     
              // Rental rn = new Rental(1,,)  ;     
          break;
@@ -74,8 +111,6 @@ public static void rent_vehicle(){
          }catch(Exception e){
               System.out.println("error");    
          }
-         
-         
    
 }
    
@@ -137,12 +172,13 @@ class Customer{
 }
 class Rental{
          Scanner sn =new Scanner(System.in);
-       private int rental_id ; 
-       private Vehicle vehicle;
-       private Customer customer;
-       private LocalDate localdate;  
-       private int days;  
+         private int rental_id ; 
+         private Vehicle vehicle;
+         private Customer customer;
+         private LocalDate localdate;  
+         private int days;
          
+       public Rental(){};   
     Rental(int rental_id,Vehicle vehicle,Customer customer,LocalDate localdate){
              this.vehicle=vehicle;
              this.customer=customer ;
@@ -157,7 +193,16 @@ class Rental{
          public double calculatecost(double days){
                return days * vehicle.getPricePerDay();
          }
-         
+         public LocalDate rental_end(long days){
+               return localdate.plusDays(days);
+         }
+      /*   public void display_summary(){
+                  System.out.println("\nRental ID: " + rentalId);
+                  System.out.println("Customer: " + customer.getName());
+                  System.out.println("Vehicle: " + vehicle.getBrand() + " " + vehicle.getModel());
+                  System.out.println("Start Date: " + startDate);
+                  System.out.println("End Date: " + (endDate != null ? endDate : "Ongoing"));
+         }*/
 }
 
 
