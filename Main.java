@@ -7,10 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Main {
-  // Main mn = new Main();
- //  public void options(int choice){}
        static Scanner sn = new Scanner(System.in);
-    //   static LocalDateTime time= new LocalDateTime().now();
    
     public static void main(String[] args) {
         boolean exit = false;
@@ -73,8 +70,21 @@ while (!validDays) {
         System.out.println("Error: Invalid input. Please enter a valid number for days.");
     }
 }
-               System.out.println("Kindly select the car you want to rent");   
-               int car = sn.nextInt();
+                 int car = 0;
+              boolean validCar = false;
+            while (!validCar) {
+    try {
+        System.out.println("Kindly select the car you want to rent");
+        car = Integer.parseInt(sn.nextLine().trim());
+        if (car <= 0) {
+            System.out.println("Error: Please enter a valid car selection number.");
+        } else {
+            validCar = true;
+        }
+    } catch (NumberFormatException e) {
+        System.out.println("Error: Invalid input. Please enter a valid number.");
+    }
+}
                       ArrayList<Car> cars = Car.carList();
                       Car cr = cars.get(car-1);
                       Customer customer = new Customer(name,id); 
@@ -82,9 +92,6 @@ while (!validDays) {
                       cr.rent();
                       rn.calculatecost(rent_days);
                       rn.display_summary();
-                 
-                        
-                 
          break;
          case 3:
          break;
@@ -214,6 +221,9 @@ class Rental{
                   System.out.println("End Date: " + (endDate != null ? endDate : "Ongoing"));
                   System.out.println("Total cost:"+ total_cost);
         }
+       public void rent_vehicle(){
+           
+       }
 }
 
 
