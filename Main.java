@@ -1,4 +1,5 @@
 package com.example;
+import java.io.*;
 import java.util.*;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -10,13 +11,16 @@ public class Main {
        static Scanner sn = new Scanner(System.in);
    
     public static void main(String[] args) {
+         ReturnVehicle rv = new ReturnVehicle();
+         Rental rn = new Rental();         
+              
         boolean exit = false;
         while(!exit){
-                 
-            System.out.println("=== VEHICLE RENTAL SYSTEM ===\n1. Show all vehicles\n2. Rent a vehicle\n3. Return a vehicle\n4. View rentals\n5. Exit\nEnter choice:");
+               //  Car.available_vehicles();
+                 System.out.println("=== VEHICLE RENTAL SYSTEM ===\n1. Show all vehicles\n2. Rent a vehicle\n3. Return a vehicle\n4. Exit\nEnter choice:");
             
-            System.out.println("1.Enter a choice");
-                 try{
+            
+               try{
                      int choice = sn.nextInt();
                      sn.nextLine();
                  
@@ -25,10 +29,98 @@ public class Main {
              Car.available_vehicles();
          break;
          case 2:
+                           
+                          Car car= rn.rent_vehicle();
+                  rv.setRentedCar(car);
+         break;
+         case 3:
+                   rv.returnVehicle();
+         break;
+         case 4:
+             exit=true;
+             System.out.println("Exit sucessfully!");         
+            break;                      
+                  }                     
+                 }catch(Exception e){
+                          sn.nextLine();
+                          System.out.println("Invalid");
+                 }
+            
+        }
+    }
+    
+   
+}
+class Bike extends Vehicle{
+     int Cc;
+    public Bike(int vehicleId, String brand,int Cc,String model,double pricePerDay){
+        super(vehicleId,brand,model, pricePerDay);
+        this.Cc = Cc;
+    }
+    @Override 
+   public void display_info(){
+        System.out.println("hello");
+    }
+}
 
-int id = 0;
-boolean validId = false;
-while (!validId) {
+
+ 
+class Customer{
+    String name;
+    int uId;
+   public Customer(String name,int uId){
+        this.name = name;
+        this.uId = uId;
+    }
+         public String getName(){return name;}
+    
+}
+class Rental{
+         Scanner sn =new Scanner(System.in);
+         private int rental_id ; 
+         private Vehicle vehicle;
+         private Customer customer;
+         private LocalDate localdate; //StartDate
+         private LocalDate endDate;
+       //  private int days;
+         private double total_cost;
+         
+       public Rental(){};   
+    Rental(int rental_id,Vehicle vehicle,Customer customer,LocalDate localdate){
+             this.vehicle=vehicle;
+             this.customer=customer ;
+             this.rental_id = rental_id;
+             this.localdate = localdate;//startdate
+    }
+         int getRentalId(){return rental_id;}
+         Vehicle getVehicle(){return vehicle;}
+         Customer getCustomer(){return customer;}
+         LocalDate getLocalDate(){return localdate;}
+         LocalDate getEndDate(){return endDate;} 
+         
+         
+         public double calculatecost(double days){
+                endDate = localdate.plusDays((long)days);
+               return total_cost = days * vehicle.getPricePerDay();
+         }
+         public LocalDate rental_end(double days){
+               return endDate = localdate.plusDays((long)days);
+         }
+         public void total_cost(){
+             System.out.println(total_cost);
+         }
+        public void display_summary(){
+                  System.out.println("\nRental ID: " + rental_id);
+                  System.out.println("Customer: " + customer.getName());
+                  System.out.println("Vehicle: " + vehicle.getBrand() + " " + vehicle.getModel());
+                  System.out.println("Start Date: " + localdate);
+                  System.out.println("End Date: " + (endDate != null ? endDate : "Ongoing"));
+                  System.out.println("Total cost:"+ total_cost);
+        }
+       public Car rent_vehicle(){
+           int id = 0;
+           boolean validId = false;
+          while (!validId) {
     try {
         System.out.println("Enter id");
         id = Integer.parseInt(sn.nextLine().trim());
@@ -92,54 +184,28 @@ while (!validDays) {
                       cr.rent();
                       rn.calculatecost(rent_days);
                       rn.display_summary();
-         break;
-         case 3:
-         break;
-         case 4:
-         break;
-         case 5:
-             exit=true;
-             System.out.println("Exit sucessfully!");         
-            break;                      
-                  }                     
-                 }catch(Exception e){
-                          System.out.println("fuck Invalid");
-                 }
-        
-
-        }
-    }
-   
- 
-public static void rent_vehicle(){
-  
-         System.out.println("Choose a car to rent(1,2etc...");
-         try{
-             int choice =  sn.nextInt();
-              
-         }catch(Exception e){
-              System.out.println("error");    
-         }
-   
-}
-   
-}
-class Bike extends Vehicle{
-     int Cc;
-    public Bike(int vehicleId, String brand,int Cc,String model,double pricePerDay){
-        super(vehicleId,brand,model, pricePerDay);
-        this.Cc = Cc;
-    }
-    @Override 
-   public void display_info(){
-        System.out.println("hello");
-    }
+            return cr;
+       }
 }
 
 
- class Car extends Vehicle{
+interface Rentable {
+    void rent();
+    void return_vehicle();
+}
+
+
+class Car extends Vehicle{
+       static  Car car1;
+       static  Car car2;
          static ArrayList<Car> cars = new ArrayList<Car>();
-    private int seats;
+         static {
+               car1 = new Car(1,"Toyota","Vios",2500.00,5);
+               car2 = new Car(2,"ferrai","GT",3500.00,4);
+               cars.add(car1);
+               cars.add(car2);
+         }
+        private int seats;
           Car(){};
     public Car(int vehicleId, String brand, String model, double pricePerDay, int seats) {
         super(vehicleId, brand, model, pricePerDay);
@@ -154,11 +220,8 @@ class Bike extends Vehicle{
     public static ArrayList<Car> carList(){return cars;}    
           
 public static void available_vehicles(){
-          Car car1 = new Car(1,"Toyota","Vios",2500.00,5);
-          Car car2 = new Car(2,"ferrai","GT",3500.00,4);
-         cars.add(car1);
-         cars.add(car2);
-          
+         
+         
         int z =1;
         Vehicle[] vehicles = {car1,car2};
         System.out.println("Available_Rentable_Vehicles");
@@ -169,70 +232,13 @@ public static void available_vehicles(){
   }          
 }
 
-class Customer{
-    String name;
-    int uId;
-   public Customer(String name,int uId){
-        this.name = name;
-        this.uId = uId;
-    }
-         public String getName(){return name;}
-    
-}
-class Rental{
-         Scanner sn =new Scanner(System.in);
-         private int rental_id ; 
-         private Vehicle vehicle;
-         private Customer customer;
-         private LocalDate localdate; //StartDate
-         private LocalDate endDate;
-       //  private int days;
-         private double total_cost;
-         
-       public Rental(){};   
-    Rental(int rental_id,Vehicle vehicle,Customer customer,LocalDate localdate){
-             this.vehicle=vehicle;
-             this.customer=customer ;
-             this.rental_id = rental_id;
-             this.localdate = localdate;//startdate
-    }
-         int getRentalId(){return rental_id;}
-         Vehicle getVehicle(){return vehicle;}
-         Customer getCustomer(){return customer;}
-         LocalDate getLocalDate(){return localdate;}
-         LocalDate getEndDate(){return endDate;} 
-         
-         
-         public double calculatecost(double days){
-                endDate = localdate.plusDays((long)days);
-               return total_cost = days * vehicle.getPricePerDay();
-         }
-         public LocalDate rental_end(double days){
-               return endDate = localdate.plusDays((long)days);
-         }
-         public void total_cost(){
-             System.out.println(total_cost);
-         }
-        public void display_summary(){
-                  System.out.println("\nRental ID: " + rental_id);
-                  System.out.println("Customer: " + customer.getName());
-                  System.out.println("Vehicle: " + vehicle.getBrand() + " " + vehicle.getModel());
-                  System.out.println("Start Date: " + localdate);
-                  System.out.println("End Date: " + (endDate != null ? endDate : "Ongoing"));
-                  System.out.println("Total cost:"+ total_cost);
-        }
-       public void rent_vehicle(){
-           
-       }
-}
-
 
 abstract class Vehicle implements Rentable{
     private int vehicleId;
     private String brand;
     private String model;
     private double pricePerDay;
-    private boolean available = true;
+    protected boolean available = true;
     
          Vehicle(){};
     public Vehicle(int vehicleId, String brand, String model, double pricePerDay) {
@@ -264,13 +270,32 @@ abstract class Vehicle implements Rentable{
         available = true;
         System.out.println(brand + " " + model + " has been returned.");
     }
-    
-    public abstract void display_info();
-    }
-    
-interface Rentable {
-    void rent();
-    void return_vehicle();
-}
 
+   public abstract void display_info();
+ //   public abstract void returnVehicle();     
+         
+    }
+
+class ReturnVehicle extends Vehicle{
+     private Car rentedCar;
+     public void setRentedCar(Car car){
+          this.rentedCar = car;
+     }
+         public void returnVehicle(){
+                  ReturnVehicle rv = new ReturnVehicle();
+                  rv.available = false;
+                  rv.rent();
+         }
+         
+         @Override
+         public void display_info(){};
+         
+}
+    /*
+public void return_vehicle(){
+         if(){
+                  
+         }else if(vehicle ret);
+}
+*/
 
